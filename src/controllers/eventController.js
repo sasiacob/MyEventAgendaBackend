@@ -20,9 +20,17 @@ export const getEvents = async (req, res) => {
 		res.send(err);
 	}
 };
+export const getEventById = async (req, res) => {
+	try {
+		const event = await Event.findById(req.params.eventId);
+		res.json(event);
+	} catch (err) {
+		res.send(err);
+	}
+};
 export const updateEvent = async (req, res) => {
 	try {
-		const event = Event.findByIdAndUpdate(req.params.eventId, req.body, {
+		const event = await Event.findByIdAndUpdate(req.params.eventId, req.body, {
 			new: true,
 			useFindAndModify: false,
 		});
