@@ -5,11 +5,18 @@ import { UserSchema } from "../models/userModel";
 
 const User = mongoose.model("User", UserSchema);
 
+const validateInput = (username, password, minLenght = 5) => {
+	if (!username || username.length < minLenght)
+		throw new Error("Invalid username or password");
+	if (!password || password.length < minLenght)
+		throw new Error("Invalid username or password");
+};
+
 export const registerGroupAdmin = async (req, res) => {
 	let newUser;
 	try {
-		if (!req.body.password || req.body.password.length < 5)
-			throw new Error("Invalid password");
+		validateInput(req.body.userName, req.body.password);
+
 		newUser = new User(req.body);
 		newUser.hashPassword = bcryptjs.hashSync(req.body.password);
 
@@ -36,6 +43,8 @@ export const loginRequired = (req, res, next) => {
 
 export const login = async (req, res) => {
 	try {
+		validateInput(req.body.userName, req.body.password);
+
 		const user = await User.findOne({ userName: req.body.userName });
 		if (!user) return res.status(401).json({ message: "No user found" });
 
@@ -46,6 +55,6 @@ export const login = async (req, res) => {
 			token: jwt.sign({ username: user.userName, _id: user.id }, "RESTFULAPIs"),
 		});
 	} catch (err) {
-		return res.status(401).json({ message: err });
+		return res.status(401).json({ message: err.message });
 	}
 };
