@@ -54,7 +54,6 @@ export const updateEvent = async (req, res) => {
 		res.send(err);
 	}
 };
-
 export const deleteEvent = async (req, res) => {
 	try {
 		const deletedEvent = await Event.findByIdAndDelete(req.params.eventId);

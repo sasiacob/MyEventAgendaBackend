@@ -35,6 +35,7 @@ export const registerGroupAdmin = async (req, res) => {
 		return res.status(400).send({ message: err.message });
 	}
 };
+
 export const loginRequired = (req, res, next) => {
 	if (req.user) return next();
 
@@ -56,5 +57,35 @@ export const login = async (req, res) => {
 		});
 	} catch (err) {
 		return res.status(401).json({ message: err.message });
+	}
+};
+
+export const addNewUser = async (req, res) => {
+	try {
+		req.body.createdBy = req.user._id;
+		const newUser = new User(req.body);
+		const savedUser = await newUser.save();
+		res.json(savedUser);
+	} catch (err) {
+		res.send(err);
+	}
+};
+export const deleteUser = async (req, res) => {
+	try {
+		const deletedUser = await User.findByIdAndDelete(req.params.userId);
+		res.json(deletedUser);
+	} catch (err) {
+		res.json(err);
+	}
+};
+export const updateUser = async (req, res) => {
+	try {
+		const user = await User.findByIdAndUpdate(req.params.userId, req.body, {
+			new: true,
+			useFindAndModify: false,
+		});
+		res.json(user);
+	} catch (err) {
+		res.json(err);
 	}
 };

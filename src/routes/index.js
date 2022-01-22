@@ -10,6 +10,9 @@ import {
 	login,
 	groupIdRequired,
 	getEventById,
+	getGroupById,
+	updateGroup,
+	deleteGroup,
 } from "../controllers";
 
 const routes = (app) => {
@@ -29,9 +32,15 @@ const routes = (app) => {
 	app.route("/auth/register").post(registerGroupAdmin);
 
 	app
-		.route("/groups")
+		.route("/group")
 		.get(loginRequired, getGroups)
 		.post(loginRequired, addNewGroup);
+
+	app
+		.route("/group/:groupId")
+		.get(loginRequired, getGroupById)
+		.put(loginRequired, updateGroup)
+		.delete(loginRequired, deleteGroup);
 };
 
 export default routes;
