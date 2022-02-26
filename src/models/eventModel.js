@@ -16,5 +16,5 @@ export const EventSchema = new Schema({
 	restToPay: Number,
 	takeout: Boolean,
 	otherDetails: String,
-	groupId: Schema.Types.ObjectId,
+	groupId: { type: Schema.Types.ObjectId, required: true },
 });

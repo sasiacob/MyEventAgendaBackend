@@ -8,27 +8,39 @@ import {
 	registerGroupAdmin,
 	loginRequired,
 	login,
+	groupIdRequired,
+	getEventById,
+	getGroupById,
+	updateGroup,
+	deleteGroup,
 } from "../controllers";
 
 const routes = (app) => {
 	app
 		.route("/event")
-		.get(loginRequired, getEvents)
-		.post(loginRequired, addNewEvent);
+		.get(loginRequired, groupIdRequired, getEvents)
+		.post(loginRequired, groupIdRequired, addNewEvent);
 
 	app
 		.route("/event/:eventId")
-		.put(loginRequired, updateEvent)
-		.delete(loginRequired, deleteEvent);
+		.get(loginRequired, groupIdRequired, getEventById)
+		.put(loginRequired, groupIdRequired, updateEvent)
+		.delete(loginRequired, groupIdRequired, deleteEvent);
 
 	app.route("/auth/login").post(login);
 
 	app.route("/auth/register").post(registerGroupAdmin);
 
 	app
-		.route("/groups")
+		.route("/group")
 		.get(loginRequired, getGroups)
 		.post(loginRequired, addNewGroup);
+
+	app
+		.route("/group/:groupId")
+		.get(loginRequired, getGroupById)
+		.put(loginRequired, updateGroup)
+		.delete(loginRequired, deleteGroup);
 };
 
 export default routes;
