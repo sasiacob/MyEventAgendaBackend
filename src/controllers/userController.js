@@ -36,7 +36,11 @@ export const loginRequired = (req, res, next) => {
 
 export const login = async (req, res) => {
 	try {
+		if (!isValid(req.body.userName, req.body.password)) {
+			throw new Error("Invalid username or password");
+		}
 		const user = await User.findOne({ userName: req.body.userName });
+
 		if (!user) return res.status(401).json({ message: "No user found" });
 
 		if (!user.comparePassword(req.body.password, user.hashPassword))
@@ -46,6 +50,14 @@ export const login = async (req, res) => {
 			token: jwt.sign({ username: user.userName, _id: user.id }, "RESTFULAPIs"),
 		});
 	} catch (err) {
-		return res.status(401).json({ message: err });
+		console.log(`err`, err.message);
+		return res.status(401).json({ message: err.message || err });
 	}
+};
+
+const isValid = (username, password, minLength = 5) => {
+	if (!username || username.length < minLength) return false;
+	if (!password || password.length < minLength) return false;
+
+	return true;
 };

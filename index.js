@@ -19,7 +19,7 @@ mongoose.connect(
 	}
 );
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //	JWT setup
@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 
 routes(app);
 
-app.get("/", (req, res) => res.setEncoding(`Node running on port ${PORT}`));
+app.get("/", (req, res) => res.send(`Node running on port ${PORT}`));
 
 app.listen(PORT, () => {
 	console.log("Server started at port", PORT);
