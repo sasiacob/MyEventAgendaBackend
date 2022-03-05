@@ -9,7 +9,7 @@ const app = express();
 const PORT = 3000;
 mongoose.Promise = global.Promise;
 const dbUrl =
-	"mongodb+srv://sasiacob2:samplepassword@cluster0.ntmt1.mongodb.net/NodeLearning?retryWrites=true&w=majority";
+	"mongodb+srv://sasiacob2:samplepass@cluster0.ntmt1.mongodb.net/NodeLearning?retryWrites=true&w=majority";
 
 mongoose.connect(
 	dbUrl,
