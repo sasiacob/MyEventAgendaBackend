@@ -4,12 +4,13 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import jsonwebtoken from "jsonwebtoken";
 import routes from "./src/routes";
+import { dbUrl } from "./src/controllers/apiSecrets";
 
 const app = express();
 const PORT = 3000;
 mongoose.Promise = global.Promise;
-const dbUrl =
-	"mongodb+srv://sasiacob2:samplepass@cluster0.ntmt1.mongodb.net/NodeLearning?retryWrites=true&w=majority";
+
+
 
 mongoose.connect(
 	dbUrl,
